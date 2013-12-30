@@ -21,7 +21,9 @@
     "lib": "./lib"
   },
   "keywords": [
-    "clang", "soap", "api"
+    "clang",
+    "soap",
+    "api"
   ],
   "licenses": [
     {
@@ -35,5 +37,10 @@
     "url": "https://github.com/devotis/clang/issues"
   },
   "homepage": "https://github.com/devotis/clang",
-  "_id": "clang@0.0.1"
+  "_id": "clang@0.0.1",
+  "dist": {
+    "shasum": "627ebf7029f38b30e0d54b6df4f56ef5de606de6"
+  },
+  "_resolved": "git://github.com/devotis/clang.git#ec705abc99f7e72cc818ab5693f556eff065c957",
+  "_from": "clang@git://github.com/devotis/clang.git#master"
 }
