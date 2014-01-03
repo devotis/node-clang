@@ -1,5 +1,5 @@
-clang
-=====
+node-clang
+==========
 
 Anyone using <a href="http://www.createaclang.com/">Clang</a>'s SOAP API? Here's something that will make your life easier. A NodeJS application that wraps Clang's SOAP API and exposes the methods that callback with JSON data. You don't need to bother with the extra resource callbacks that some methods like customer_getByObject require. Internally these resources are polled and the final dataset is returned in the callback.
 
