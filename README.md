@@ -5,7 +5,7 @@ Anyone using <a href="http://www.createaclang.com/">Clang</a>'s SOAP API? Here's
 
 I had tons of fun building this. NodeJS rocks!
 
-Example
+##Example
 
     var clang = require('clang');
     clang.init('your_uuid', '1.18', function(err, api) {
