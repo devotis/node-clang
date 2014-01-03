@@ -1,19 +1,24 @@
 var clang = require('clang');
 
 
-clang.init('7e5b4df2-7a91-4af0-9119-1fc2d6fdc8a2', '1.18', function(err, api) {
+clang.init('your_uuid', '1.18', function(err, api) {
 	if (err) {
 		console.log('err', err.message);	
 	}
 
+	//Example calls after initialisation are shown below.
+	//Another great example is this implementations: https://github.com/devotis/node-clang-rest
 
-
-	/*api.objects.group.getAll({}, function(err, rows) {
+	/*
+	api.objects.group.getAll({}, function(err, rows) {
 
 		console.log(err, rows);
 
-	});*/
-	/*api.objects.customer.getByObject({
+	});
+	*/
+	
+	/*
+	api.objects.customer.getByObject({
 		customer: {
 			emailAddress: 'c.westerbeek@gmail.com'
 		}
@@ -21,8 +26,11 @@ clang.init('7e5b4df2-7a91-4af0-9119-1fc2d6fdc8a2', '1.18', function(err, api) {
 
 		console.log('errhere', err, rows);
 
-	});*/
-	/*api.objects.customer.insert({
+	});
+	*/
+	
+	/*
+	api.objects.customer.insert({
 		customer: {
 			firstname: 'Christiaan',
 			emailAddress: 'c.westerbeek@gmail.com'
@@ -31,9 +39,11 @@ clang.init('7e5b4df2-7a91-4af0-9119-1fc2d6fdc8a2', '1.18', function(err, api) {
 
 		console.log(err, rows);
 
-	});*/
+	});
+	*/
 
-	/*api.objects.customer.update({
+	/*
+	api.objects.customer.update({
 		customer: {
 			id: 39514,
 			firstname: 'Christiaan333',
@@ -43,8 +53,9 @@ clang.init('7e5b4df2-7a91-4af0-9119-1fc2d6fdc8a2', '1.18', function(err, api) {
 
 		console.log(err, rows);
 
-	});*/
-
+	});
+	*/
+	/*
 	api.objects.customer.delete({
 		customer: {
 			id: 39514,
@@ -56,6 +67,7 @@ clang.init('7e5b4df2-7a91-4af0-9119-1fc2d6fdc8a2', '1.18', function(err, api) {
 		console.log(err, rows);
 
 	});
+	*/
 });
 
 
