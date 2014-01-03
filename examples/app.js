@@ -7,7 +7,7 @@ clang.init('your_uuid', '1.18', function(err, api) {
 	}
 
 	//Example calls after initialisation are shown below.
-	//Another great example is this implementations: https://github.com/devotis/node-clang-rest
+	//Another great example is this implementation: https://github.com/devotis/node-clang-rest
 
 	/*
 	api.objects.group.getAll({}, function(err, rows) {
