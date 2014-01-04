@@ -1,7 +1,7 @@
 var clang = require('clang');
 
-
-clang.init('your_uuid', '1.18', function(err, api) {
+clang.uuid('your_clang_api_key_aka_uuid')
+clang.init(function(err, api) {
 	if (err) {
 		console.log('err', err.message);	
 	}

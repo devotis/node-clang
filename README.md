@@ -8,7 +8,9 @@ I had a ton of fun building this. NodeJS rocks!
 ##Example
 
     var clang = require('clang');
-    clang.init('your_uuid', '1.18', function(err, api) {
+
+    clang.uuid('your_clang_api_key_aka_uuid');
+    clang.init(function(err, api) {
         if (err) {
             console.log('err', err.message);
             return;
@@ -29,3 +31,8 @@ I had a ton of fun building this. NodeJS rocks!
     });
 
 Another great use case for this is a REST API out of the available methods exposed by this API. Check here https://github.com/devotis/node-clang-rest
+
+##WSDL
+This is the underlying WSDL document that is used by clang.init()
+
+https://secure.myclang.com/app/api/soap/public/index.php?wsdl
