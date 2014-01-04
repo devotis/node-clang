@@ -15,7 +15,15 @@ I had a ton of fun building this. NodeJS rocks!
         }
         
         //using the newly created API
-        api.objects.group.getAll({/*params maybe here*/}, function(err, rows) {
+        api.objects.group.getAll({}, function(err, rows) {
+            console.log(err, rows);
+        });
+        
+        api.objects.customer.getByObject({
+            customer: {
+                firstname: 'lookmeup'
+            }
+        }, function(err, rows) {
             console.log(err, rows);
         });
     });
