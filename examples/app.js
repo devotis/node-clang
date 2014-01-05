@@ -1,73 +1,69 @@
 var clang = require('clang');
 
-clang.uuid('your_clang_api_key_aka_uuid')
+clang.uuid('your_clang_api_key_aka_uuid');
 clang.init(function(err, api) {
 	if (err) {
 		console.log('err', err.message);	
 	}
 
-	//Example calls after initialisation are shown below.
+	//Example calls after initialization are shown below.
 	//Another great example is this implementation: https://github.com/devotis/node-clang-rest
-
-	/*
-	api.objects.group.getAll({}, function(err, rows) {
+	
+	api.objects.group.getByObject({
+		name: 'mailing18092012'
+	}, function(err, rows) {
 
 		console.log(err, rows);
 
 	});
-	*/
 	
-	/*
 	api.objects.customer.getByObject({
-		customer: {
-			emailAddress: 'c.westerbeek@gmail.com'
-		}
+		emailAddress: 'a@b.nl',
+		vraag32d: 'qwerty1'
 	}, function(err, rows) {
 
 		console.log('errhere', err, rows);
 
 	});
-	*/
 	
-	/*
 	api.objects.customer.insert({
-		customer: {
-			firstname: 'Christiaan',
-			emailAddress: 'c.westerbeek@gmail.com'
-		}
+		firstname: 'Christiaan',
+		emailAddress: 'a@b.nl',
+		vraag32d: 'qwerty1',
+		vraag32g: 'qwerty2',
+		vraag37d: 'qwerty3',
+		vraag32h: 'qwerty4'
 	}, function(err, rows) {
 
 		console.log(err, rows);
 
 	});
-	*/
-
-	/*
+	
+	
 	api.objects.customer.update({
-		customer: {
-			id: 39514,
-			firstname: 'Christiaan333',
-			emailAddress: 'c.westerbeek@gmail.com'
-		}
+		id: 39532,
+		firstname: 'Christiaan333',
+		emailAddress: 'a@b.nl',
+		vraag32d: 'xqwerty1',
+		vraag32g: 'xqwerty2',
+		vraag32h: 'xqwerty4'
 	}, function(err, rows) {
 
 		console.log(err, rows);
 
 	});
-	*/
-	/*
+	
+	
 	api.objects.customer.delete({
-		customer: {
-			id: 39514,
-			firstname: 'Christiaan333',
-			emailAddress: 'c.westerbeek@gmail.com'
-		}
+		id: 39532,
+		firstname: 'Christiaan333',
+		emailAddress: 'a@b.nl'
 	}, function(err, rows) {
 
 		console.log(err, rows);
 
 	});
-	*/
+	
 });
 
 

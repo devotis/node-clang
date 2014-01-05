@@ -22,9 +22,7 @@ I had a ton of fun building this. NodeJS rocks!
         });
         
         api.objects.customer.getByObject({
-            customer: {
-                firstname: 'lookmeup'
-            }
+            firstname: 'lookmeup'
         }, function(err, rows) {
             console.log(err, rows);
         });
