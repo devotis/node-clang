@@ -5,6 +5,10 @@ Anyone using <a href="http://www.createaclang.com/">Clang</a>'s SOAP API? Here's
 
 I had a ton of fun building this. NodeJS rocks!
 
+##Install
+
+    npm install https://github.com/devotis/node-clang/tarball/master
+
 ##Example
 
     var clang = require('clang');
