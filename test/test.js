@@ -19,7 +19,7 @@ describe('Request signature', function() {
   it('Request without methodName and arguments should throw an error', function(done) {
     try {
       clang.request(function(err, result) {
-        false.should.be.equal(false);
+        false.should.be.equal(true);
         done();
       });
     } catch(e) {
