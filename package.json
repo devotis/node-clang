@@ -1,46 +1,44 @@
 {
   "name": "clang",
-  "version": "0.0.1",
-  "description": "Wrapper functions for Clang's SOAP API",
-  "engines": {
-    "node": ">=0.8.0"
-  },
-  "author": {
-    "name": "Christiaan Westerbeek",
-    "email": "chris@devotis.nl"
-  },
-  "dependencies": {
-    "soap": "git://github.com/devotis/node-soap.git#master"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/devotis/clang.git"
-  },
-  "main": "./index.js",
-  "directories": {
-    "lib": "./lib"
-  },
+  "version": "0.1.0",
+  "description": "Node.js api wrapper for Clang's SOAP api",
+  "author": "Christiaan Westerbeek <chris@devotis.nl>",
   "keywords": [
     "clang",
     "soap",
     "api"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devotis/clang.git"
+  },
+  "main": "./index.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+    "soap": "0.9",
+    "lodash": "3.10",
+    "async": "1.4"
+  },
+  "devDependencies": {
+    "mocha": "2.3.x",
+    "should": "7.1.x"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
   "licenses": [
     {
       "type": "MIT License",
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
   ],
-  "readme": "Clang wrapper that abstracts its SOAP api",
-  "readmeFilename": "Readme.md",
+  "homepage": "https://github.com/devotis/clang",
   "bugs": {
     "url": "https://github.com/devotis/clang/issues"
   },
-  "homepage": "https://github.com/devotis/clang",
-  "_id": "clang@0.0.1",
-  "dist": {
-    "shasum": "627ebf7029f38b30e0d54b6df4f56ef5de606de6"
-  },
-  "_resolved": "git://github.com/devotis/clang.git#ec705abc99f7e72cc818ab5693f556eff065c957",
-  "_from": "clang@git://github.com/devotis/clang.git#master"
+  "scripts": {
+    "test": "mocha"
+  }
 }
