@@ -1,6 +1,6 @@
 {
   "name": "clang",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Node.js api wrapper for Clang's SOAP api",
   "author": "Christiaan Westerbeek <chris@devotis.nl>",
   "keywords": [
