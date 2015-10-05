@@ -7,7 +7,7 @@ I had a ton of fun building this. Node.js rocks!
 
 ##Install
 
-    npm install https://github.com/devotis/node-clang/tarball/master
+    npm install clang
 
 ##Example
 
