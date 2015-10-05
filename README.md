@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/devotis/node-clang.svg)](https://travis-ci.org/devotis/node-clang)
+[![npm version](https://badge.fury.io/js/clang.svg)](https://www.npmjs.org/package/clang)
+
 node-clang
 ==========
 
