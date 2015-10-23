@@ -24,6 +24,12 @@ I had a ton of fun building this. Node.js rocks!
       console.log(arguments);
     });
 
+    //Paging using the special parameters _size and _offset. Defaults are 50 and 0
+    clang.request('customer_getAll', {
+      _size: 10
+    }, function(err, result) {
+      console.log(arguments);
+    });
 
 ##WSDL
 This is the underlying WSDL document that is used
