@@ -22,8 +22,8 @@
     "soap": "^0.17.0"
   },
   "devDependencies": {
-    "mocha": "2.3.x",
-    "should": "7.1.x"
+    "mocha": "^2.3.4",
+    "should": "^7.1.1"
   },
   "directories": {
     "lib": "./lib"
