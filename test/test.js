@@ -17,14 +17,10 @@ describe('Class instantiation', function() {
 
 describe('Request signature', function() {
   it('Request without methodName and arguments should throw an error', function(done) {
-    try {
-      clang.request(function(err, result) {
-        false.should.be.equal(true);
-        done();
-      });
-    } catch(e) {
-      true.should.be.equal(true);
+    clang.request(function(err, result) {
+      (!!err).should.be.equal(true);
+
       done();
-    }
+    });
   });
 });
