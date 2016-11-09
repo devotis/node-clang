@@ -31,3 +31,62 @@ describe('Request signature', function() {
     });
   });
 });
+
+describe('Send signature', function() {
+  it('Send requires 3 arguments or else should callback with an error', function(done) {
+    clang.send(function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Empty customer object should callback with an error', function(done) {
+    clang.send({}, {}, function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Send with unsupport lookup key should callback with an error', function(done) {
+    clang.send({externalId: 1}, {lookup: 'some-unsupported-key'}, function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Send with context without contextId should callback with an error', function(done) {
+    clang.send({externalId: 1}, {context: 'group'}, function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Send with unsupported context should callback with an error', function(done) {
+    clang.send({externalId: 1}, {context: 'some-unsupported-context'}, function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Send with lookup=externalId without an externalId should callback with an error', function(done) {
+    clang.send({x: 1}, {lookup: 'externalId', context: 'group'}, function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Send with lookup=customerId without an id/customerId should callback with an error', function(done) {
+    clang.send({x: 1}, {lookup: 'customerId', context: 'group'}, function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Send with lookup=email without an email/emailAddress should callback with an error', function(done) {
+    clang.send({x: 1}, {lookup: 'email', context: 'group'}, function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+});
