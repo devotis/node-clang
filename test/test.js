@@ -16,8 +16,15 @@ describe('Class instantiation', function() {
 });
 
 describe('Request signature', function() {
-  it('Request without methodName and arguments should throw an error', function(done) {
+  it('Request without methodName and arguments should callback with an error', function(done) {
     clang.request(function(err, result) {
+      (!!err).should.be.equal(true);
+
+      done();
+    });
+  });
+  it('Request without uuid in arguments should callback with an error', function(done) {
+    clang.request('someMethod', function(err, result) {
       (!!err).should.be.equal(true);
 
       done();
