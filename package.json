@@ -17,13 +17,13 @@
     "node": "*"
   },
   "dependencies": {
-    "async": "^2.1.2",
-    "lodash": "^4.16.4",
-    "soap": "^0.17.0"
+    "async": "2.4.1",
+    "lodash": "4.17.4",
+    "soap": "0.19.2"
   },
   "devDependencies": {
-    "mocha": "^2.3.4",
-    "should": "^7.1.1"
+    "mocha": "^3.4.2",
+    "should": "^11.2.1"
   },
   "directories": {
     "lib": "./lib"
