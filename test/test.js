@@ -90,3 +90,31 @@ describe('Send signature', function() {
     });
   });
 });
+
+describe('Fields', function() {
+  it('Transform well', function(done) {
+    var data = {
+        a: 1,
+        email: 'a@b.nl',
+        gender: 'M',
+        name: 'me'
+    }
+    var options = {
+      fieldMap: {
+        name: 'firstname'
+      }
+    }
+
+    var actual = clang.transformFields(data, options)
+    var expected = {
+      a: 1,
+      emailAddress: 'a@b.nl',
+      gender: 'MAN',
+      firstname: 'me'
+    }
+
+
+    actual.should.be.deepEqual(expected)
+    setImmediate(done)
+  });
+});
