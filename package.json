@@ -1,6 +1,6 @@
 {
   "name": "clang",
-  "version": "0.2.10",
+  "version": "1.0.0",
   "description": "Node.js api wrapper for Clang's SOAP api",
   "author": "Christiaan Westerbeek <chris@devotis.nl>",
   "keywords": [
@@ -8,11 +8,15 @@
     "soap",
     "api"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/devotis/clang.git"
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "node test/",
+    "lint": "eslint --ext=.js ."
   },
   "main": "./index.js",
+  "directories": {
+    "lib": "./lib"
+  },
   "engines": {
     "node": ">=4.4.5"
   },
@@ -24,22 +28,18 @@
     "eslint": "4.1.1",
     "tape": "4.6.3"
   },
-  "directories": {
-    "lib": "./lib"
+  "homepage": "https://github.com/devotis/clang",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/devotis/clang.git"
+  },
+  "bugs": {
+    "url": "https://github.com/devotis/clang/issues"
   },
   "licenses": [
     {
       "type": "MIT License",
       "url": "http://www.opensource.org/licenses/mit-license.php"
     }
-  ],
-  "homepage": "https://github.com/devotis/clang",
-  "bugs": {
-    "url": "https://github.com/devotis/clang/issues"
-  },
-  "scripts": {
-    "pretest": "npm run lint",
-    "test": "node test/",
-    "lint": "eslint --ext=.js ."
-  }
+  ]
 }
