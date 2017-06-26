@@ -94,10 +94,10 @@ describe('Send signature', function() {
 describe('Fields', function() {
   it('Transform well', function(done) {
     var data = {
-        a: 1,
-        email: 'a@b.nl',
-        gender: 'M',
-        name: 'me'
+      a: 1,
+      email: 'a@b.nl',
+      gender: 'M',
+      name: 'me'
     }
     var options = {
       fieldMap: {
@@ -113,8 +113,19 @@ describe('Fields', function() {
       firstname: 'me'
     }
 
-
     actual.should.be.deepEqual(expected)
+    setImmediate(done)
+  });
+  it('Transformation creates an new object', function(done) {
+    var data = {
+      a: 'a@b.nl'
+    }
+
+    var actual = clang.transformFields(data)
+
+    actual.should.be.deepEqual(data)
+    actual.should.not.be.equal(data)
+
     setImmediate(done)
   });
 });
