@@ -3,7 +3,7 @@
 const tape = require('tape')
 const async = require('async')
 const Clang = require('../')
-let clang = new Clang()
+let clang = new Clang({version: '*'})
 
 tape('Class instantiation', (t) => {
   t.equal(clang instanceof Clang, true, 'Clang instantiation should work')
@@ -102,6 +102,27 @@ tape('Send signature', (t) => {
   })
 })
 
+tape('Request validity', (t) => {
+  async.parallel([
+    (cb) => {
+      clang.request('someMethod', {uuid: '123'}, function(err) {
+        t.ok(err, 'Request with undefined method should callback with an error')
+        cb()
+      })
+    },
+    (cb) => {
+      clang.request('customer_getById', {uuid: '123'}, function(err) {
+        console.log('err here', err)
+        t.ok(err, 'Request with incorrect should callback with an error')
+        t.ok(err.Fault, 'Which is a SOAP Fault')
+        t.equal(err.Fault.faultcode, '202', 'With faultcode 202')
+        cb()
+      })
+    }
+  ], () => {
+    t.end()
+  })
+})
 tape('Fields', (t) => {
   let data = {
     a: 1,
