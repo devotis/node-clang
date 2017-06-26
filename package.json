@@ -39,6 +39,7 @@
     "url": "https://github.com/devotis/clang/issues"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint --ext=.js ."
   }
 }
