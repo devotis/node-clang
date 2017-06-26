@@ -14,7 +14,8 @@ I had a ton of fun building this. Node.js rocks!
 
 ## 1.0 breaking changes
 - instantiation without new keyword is not possible anymore.
-- normalizeOptionFields does not default to true anymore. It doesn't default at all.
+- config.normalizeOptionFields does not default to true anymore. It doesn't default at all.
+- config.logRequests is renamed to config.logPayload and also logs raw xml output
 
 ## Example
 
