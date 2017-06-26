@@ -22,8 +22,7 @@
   },
   "devDependencies": {
     "eslint": "4.1.1",
-    "mocha": "^3.4.2",
-    "should": "^11.2.1"
+    "tape": "4.6.3"
   },
   "directories": {
     "lib": "./lib"
@@ -39,7 +38,7 @@
     "url": "https://github.com/devotis/clang/issues"
   },
   "scripts": {
-    "test": "mocha",
+    "test": "node test/",
     "lint": "eslint --ext=.js ."
   }
 }
