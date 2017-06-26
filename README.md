@@ -8,11 +8,14 @@ Anyone using <a href="http://www.createaclang.com/">Clang</a>'s SOAP api? Here's
 
 I had a ton of fun building this. Node.js rocks!
 
-##Install
+## Install
 
     npm install clang
 
-##Example
+## 1.0 breaking changes
+- instantiation without new keyword is not possible anymore
+
+## Example
 
     var Clang = require("./lib/clang");
 

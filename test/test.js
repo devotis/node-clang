@@ -1,17 +1,16 @@
-var should = require('should');
-
-var Clang = require('../index');
-var clang = new Clang();
+const should = require('should');
+let Clang = require('../index');
+let clang = new Clang();
 
 describe('Class instantiation', function() {
   it('Clang instantiation should work', function() {
 
     (clang instanceof Clang).should.be.equal(true);
   });
-  it('Clang instantiation without new keyword should work', function() {
-    var x = Clang();
-
-    (x instanceof Clang).should.be.equal(true);
+  it('Clang instantiation without new keyword should not work', function() {
+    should(function() {
+      Clang()
+    }).throw();
   });
 });
 
@@ -93,20 +92,20 @@ describe('Send signature', function() {
 
 describe('Fields', function() {
   it('Transform well', function(done) {
-    var data = {
+    let data = {
       a: 1,
       email: 'a@b.nl',
       gender: 'M',
       name: 'me'
     }
-    var options = {
+    let options = {
       fieldMap: {
         name: 'firstname'
       }
     }
 
-    var actual = clang.transformFields(data, options)
-    var expected = {
+    let actual = clang.transformFields(data, options)
+    let expected = {
       a: 1,
       emailAddress: 'a@b.nl',
       gender: 'MAN',
@@ -117,11 +116,11 @@ describe('Fields', function() {
     setImmediate(done)
   });
   it('Transformation creates an new object', function(done) {
-    var data = {
+    let data = {
       a: 'a@b.nl'
     }
 
-    var actual = clang.transformFields(data)
+    let actual = clang.transformFields(data)
 
     actual.should.be.deepEqual(data)
     actual.should.not.be.equal(data)
