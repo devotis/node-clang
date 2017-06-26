@@ -27,6 +27,12 @@ tape('Request signature', (t) => {
         t.ok(err, 'Request without uuid in arguments should callback with an error')
         cb()
       })
+    },
+    (cb) => {
+      clang.request('someMethod', 'this-should-be-an-object', function(err) {
+        t.ok(err, 'Request with non-object as 2nd argument (args) should callback with an error')
+        cb()
+      })
     }
   ], () => {
     t.end()
