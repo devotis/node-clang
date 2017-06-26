@@ -38,6 +38,7 @@
     "url": "https://github.com/devotis/clang/issues"
   },
   "scripts": {
+    "pretest": "npm run lint",
     "test": "node test/",
     "lint": "eslint --ext=.js ."
   }
