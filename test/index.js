@@ -112,8 +112,7 @@ tape('Request validity', (t) => {
     },
     (cb) => {
       clang.request('customer_getById', {uuid: '123'}, function(err) {
-        console.log('err here', err)
-        t.ok(err, 'Request with incorrect should callback with an error')
+        t.ok(err, 'Request with incorrect uuid should callback with an error')
         t.ok(err.Fault, 'Which is a SOAP Fault')
         t.equal(err.Fault.faultcode, '202', 'With faultcode 202')
         cb()
@@ -123,6 +122,37 @@ tape('Request validity', (t) => {
     t.end()
   })
 })
+
+tape('Request promise', (t) => {
+  let isCalled = function() {
+    isCalled = true
+  }
+
+  async.parallel([
+    (cb) => {
+      clang.request('someMethod', {uuid: '123'})
+      .then(isCalled)
+      .catch(err => {
+        t.ok(err, 'Request with undefined method should callback with an error')
+        cb()
+      })
+    },
+    (cb) => {
+      clang.request('customer_getById', {uuid: '123'})
+      .then(isCalled)
+      .catch(err => {
+        t.ok(err, 'Request with incorrect uuid should callback with an error')
+        t.ok(err.Fault, 'Which is a SOAP Fault')
+        t.equal(err.Fault.faultcode, '202', 'With faultcode 202')
+        cb()
+      })
+    }
+  ], () => {
+    t.notEqual(isCalled, true, 'The promise did resolve which was unexpected')
+    t.end()
+  })
+})
+
 tape('Fields', (t) => {
   let data = {
     a: 1,
