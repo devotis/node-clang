@@ -1,1 +1,1 @@
-module.exports = require('./lib/clang');
+module.exports = require('./lib/clang')
