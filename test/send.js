@@ -15,10 +15,13 @@ let clang = new Clang({
 const lib = require('./lib');
 
 tape('Sending to an existing customer', function (t) {
+  let externalId = Date.now()+''
+  let emailAddress = config.get('tester.emailAddress')
+
   async.autoInject({
     deleteAll: clang.deleteAll.bind(clang, 'customer'),
     createCustomer: function(deleteAll, cb) {
-      clang.request('customer_insert', {customer: {externalId: '123'}}, cb)
+      clang.request('customer_insert', {customer: {externalId}}, cb)
     },
     createEmail: function(createCustomer, cb) {
       clang.request('email_create', cb)
@@ -36,8 +39,8 @@ tape('Sending to an existing customer', function (t) {
     },
     send: function(insertEmail, cb) {
       clang.send({
-        emailAddress: 'c.westerbeek@gmail.com',
-        externalId: '123'
+        emailAddress,
+        externalId
       }, {
         lookup: 'externalId',
         create: true, // Nog een test case maken waarbij je de melding krijgt:  Customer not found and create is not allowed
