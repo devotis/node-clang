@@ -15,7 +15,8 @@ const lib = require('./lib');
 
 tape('creating an email', function (t) {
   async.autoInject({
-    empty: function(cb) {
+    deleteAll: clang.deleteAll.bind(clang, 'email'),
+    empty: function(deleteAll, cb) {
       clang.request('email_insert', {
         email: {
         }
@@ -25,7 +26,7 @@ tape('creating an email', function (t) {
         cb()
       })
     },
-    create: function(cb) {
+    create: function(empty, cb) {
       clang.request('email_create', cb)
     },
     insertThatFails: ['create', function(create, cb) {
