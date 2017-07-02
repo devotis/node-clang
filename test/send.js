@@ -16,13 +16,14 @@ const lib = require('./lib');
 
 tape('Sending to an existing customer', function (t) {
   async.autoInject({
-    createCustomer: function(cb) {
+    deleteAll: clang.deleteAll.bind(clang, 'customer'),
+    createCustomer: function(deleteAll, cb) {
       clang.request('customer_insert', {customer: {externalId: '123'}}, cb)
     },
-    createEmail: function(cb) {
+    createEmail: function(createCustomer, cb) {
       clang.request('email_create', cb)
     },
-    insertEmail: ['createEmail', function(createEmail, cb) {
+    insertEmail: function(createEmail, cb) {
       let email = Object.assign({}, createEmail, {
         name: 'test-name',
         fromName: 'Smith',
@@ -32,8 +33,8 @@ tape('Sending to an existing customer', function (t) {
         textContent: 'Newsletter text body'
       })
       clang.request('email_insert', {email}, cb)
-    }],
-    send: ['insertEmail', function(insertEmail, cb) {
+    },
+    send: function(insertEmail, cb) {
       clang.send({
         emailAddress: 'c.westerbeek@gmail.com',
         externalId: '123'
@@ -43,13 +44,18 @@ tape('Sending to an existing customer', function (t) {
         context: 'email',
         contextId: insertEmail.id
       }, cb)
-    }]
+    }
   }, (err, result) => {
-    console.log(result)
     t.notOk(err, 'No error occured')
-    t.ok(lib.isObject(result.createEmail), 'The create result is a non-empty object')
-    t.ok(lib.isObject(result.insertEmail), 'The insert result is a non-empty object')
-    t.equal(result.send, true, 'Sending the email succeeded albeit the true is not conclusive about if sending actually worked')
+    t.ok(lib.isObject(result.createEmail), 'The `create` result is a non-empty object')
+    t.ok(lib.isObject(result.insertEmail), 'The `insert` result is a non-empty object')
+    t.ok(lib.isObject(result.send), 'The `send` result is a non-empty object')
+    t.ok(lib.isObject(result.send.get), 'The send object returns a `get` key for the customer that was retrieved')
+    t.ok(result.send.upsertMethodName && result.send.upsertMethodName.match(/^customer_(update|insert)$/), 'The send object returns a `upsertMethodName` key indicating if an existing customer was updated or a new one inserted')
+    t.ok(lib.isObject(result.send.upsert), 'The send object returns a `upsert` key for the customer data after it was updated')
+    t.equal(result.createCustomer.externalId, result.send.upsert.externalId, 'externalId of the created customer and updated one are the same')
+    t.equal(result.send.upsertMethodName, 'customer_update', 'A customer update occured as opposed to a customer insert')
+    t.equal(result.send.send, true, 'Sending the email succeeded albeit the true is not conclusive about if sending actually worked')
     t.end()
   })
 })
