@@ -5,7 +5,12 @@ const config = require('config')
 const tape = require('tape')
 const async = require('async')
 const Clang = require('../')
-let clang = new Clang({version: '*', uuid: config.get('uuid'), logPayload: false})
+let clang = new Clang({
+  version: '*',
+  uuid: config.get('uuid'),
+  logPayload: false,
+  debug: false
+})
 
 const lib = require('./lib');
 
@@ -57,13 +62,19 @@ tape('updating a customer', function (t) {
 tape('Looking up customers', function (t) {
   async.autoInject({
     deleteAll: clang.deleteAll.bind(clang, 'customer'),
-    create1: function(deleteAll, cb) {
+    testAnswer: function(deleteAll, cb) {
+      if (!deleteAll.prompt.answer.match(/y[es]*/i)) {
+        return setImmediate(cb.bind(null, new Error('Prompt was answered with No, stopping test because it will fail')))
+      }
+      setImmediate(cb)
+    },
+    create1: function(testAnswer, cb) {
       clang.request('customer_insert', {customer: {firstname: '1', lastname: 'test', externalId: '1', emailAddress: 'a1@b.nl'}}, cb)
     },
-    create2: function(deleteAll, cb) {
+    create2: function(testAnswer, cb) {
       clang.request('customer_insert', {customer: {firstname: '2', lastname: 'test', externalId: '2', emailAddress: 'a2@b.nl'}}, cb)
     },
-    create3: function(deleteAll, cb) {
+    create3: function(testAnswer, cb) {
       clang.request('customer_insert', {customer: {firstname: '3', lastname: 'test', externalId: '3', emailAddress: 'a3@b.nl'}}, cb)
     },
     getById: function(create1, create2, create3, cb) {
@@ -80,45 +91,3 @@ tape('Looking up customers', function (t) {
     t.end()
   })
 })
-
-
-//
-// tape('customer_getByXxx', (t) => {
-//   let isCalled = function() {isCalled = true}
-//
-//   async.parallel([
-//     // (cb) => {
-//     //   clang.request('customer_getById', {id: 0})
-//     //   .then(isCalled)
-//     //   .catch(err => {
-//     //     t.ok(err, 'customer_getById with non existing id should callback with an error')
-//     //     t.ok(err.Fault, 'Which is a SOAP Fault')
-//     //     t.equal(err.Fault.faultcode, '213', 'With faultcode 213')
-//     //     cb()
-//     //   })
-//     // },
-//     (cb) => {
-//       clang.request('customer_getByExternalId')
-//       .then(isCalled)
-//       .catch(err => {
-//         t.ok(err, 'customer_getById with non existing id should callback with an error')
-//         t.ok(err.Fault, 'Which is a SOAP Fault')
-//         t.equal(err.Fault.faultcode, '213', 'With faultcode 213')
-//         cb()
-//       })
-//     },
-//     // (cb) => {
-//     //   clang.request('customer_getByEmailAddress', {emailAddress: 'c-a-n-t-p-o-s-s-s-s-s-i-b-ly@exi.st'})
-//     //   .then(isCalled)
-//     //   .catch(err => {
-//     //     t.ok(err, 'customer_getById with non existing id should callback with an error')
-//     //     t.ok(err.Fault, 'Which is a SOAP Fault')
-//     //     t.equal(err.Fault.faultcode, '213', 'With faultcode 213')
-//     //     cb()
-//     //   })
-//     // }
-//   ], () => {
-//     t.notEqual(isCalled, true, 'None of the promises should have resolved')
-//     t.end()
-//   })
-// })
