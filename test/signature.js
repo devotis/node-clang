@@ -6,6 +6,8 @@ const async = require('async')
 const Clang = require('../')
 let clang = new Clang({version: '*'})
 
+const lib = require('./lib');
+
 tape('Class instantiation', (t) => {
   t.equal(clang instanceof Clang, true, 'Clang instantiation should work')
 
@@ -114,8 +116,7 @@ tape('Request validity', (t) => {
     (cb) => {
       clang.request('customer_getById', {uuid: '123'}, function(err) {
         t.ok(err, 'Request with incorrect uuid should callback with an error')
-        t.ok(err.Fault, 'Which is a SOAP Fault')
-        t.equal(err.Fault.faultcode, '202', 'With faultcode 202')
+        t.equal(lib.faultcode(err), 202, 'With is a SOAP Fault with faultcode 202')
         cb()
       })
     }
@@ -143,8 +144,7 @@ tape('Request validity promise', (t) => {
       .then(isCalled)
       .catch(err => {
         t.ok(err, 'Request with incorrect uuid should callback with an error')
-        t.ok(err.Fault, 'Which is a SOAP Fault')
-        t.equal(err.Fault.faultcode, '202', 'With faultcode 202')
+        t.equal(lib.faultcode(err), 202, 'With is a SOAP Fault with faultcode 202')
         cb()
       })
     }
