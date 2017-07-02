@@ -53,6 +53,35 @@ tape('updating a customer', function (t) {
     t.end()
   })
 })
+
+tape('Looking up customers', function (t) {
+  async.autoInject({
+    deleteAll: clang.deleteAll.bind(clang, 'customer'),
+    create1: function(deleteAll, cb) {
+      clang.request('customer_insert', {customer: {firstname: '1', lastname: 'test', externalId: '1', emailAddress: 'a1@b.nl'}}, cb)
+    },
+    create2: function(deleteAll, cb) {
+      clang.request('customer_insert', {customer: {firstname: '2', lastname: 'test', externalId: '2', emailAddress: 'a2@b.nl'}}, cb)
+    },
+    create3: function(deleteAll, cb) {
+      clang.request('customer_insert', {customer: {firstname: '3', lastname: 'test', externalId: '3', emailAddress: 'a3@b.nl'}}, cb)
+    },
+    getById: function(create1, create2, create3, cb) {
+      clang.request('customer_getById', {customerId: create2.id}, cb)
+    },
+    getByObject: function(create1, create2, create3, cb) {
+      clang.request('customer_getByObject', {customer: {lastname: 'test'}}, cb)
+    }
+  }, (err, result) => {
+    t.notOk(err, 'No error occured')
+    t.ok(lib.isObject(result.getById), 'The create result is a non-empty object')
+    t.equal(result.getById.firstname, '2', 'The correct record was found')
+    t.ok(lib.arrayWithObjects(result.getByObject, 3), 'all 3 records are found')
+    t.end()
+  })
+})
+
+
 //
 // tape('customer_getByXxx', (t) => {
 //   let isCalled = function() {isCalled = true}
