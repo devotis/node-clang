@@ -13,6 +13,7 @@ const faultcode = err => {
 }
 
 module.exports = {
+  isObject,
   arrayWithObjects,
   faultcode
 }
