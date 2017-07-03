@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "async": "2.4.1",
+    "moment": "2.18.1",
     "prompt": "1.0.0",
     "soap": "0.19.2"
   },

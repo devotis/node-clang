@@ -8,6 +8,7 @@ const Clang = require('../')
 let clang = new Clang({
   version: '*',
   uuid: config.get('uuid'),
+  normalizeOptionFields: true,
   logPayload: false,
   debug: false
 })
@@ -205,6 +206,41 @@ tape('Send new customer to group', function (t) {
     t.equal(result.send.upsert.externalId, externalId, 'externalId of the created customer and updated one are the same')
     t.equal(result.send.upsertMethodName, 'customer_insert', 'A customer insert occured as opposed to a customer update')
     t.equal(result.send.send, true, 'Sending the email succeeded albeit the true is not conclusive about if sending actually worked')
+    t.end()
+  })
+})
+
+tape('Proper sending of customer data values', function (t) {
+  let externalId = Date.now()+''
+  async.autoInject({
+    send: function(cb) {
+      clang.send({
+        "emailAddress": 'a2@b.nl',
+        "birthday": new Date(1977, 6, 3), // Datum type -> 3 jul 1977
+        externalId,
+        "addressNumberSuffix": "1234567890",
+        // customer options
+        "type-date": new Date(2017, 6, 3), // Datum type -> 3 jul 2017
+        "type-datetime": new Date(2017, 6, 3, 14, 15, 16), // Datum / tijd type -> 3 jul 2017 14:15:16
+        "type-time": '13:14', // Tijd type
+        "type-number-2": 0.1234, // Getal met 2 decimalen
+        "type-number-3": 0.2345, // Getal met 3 decimalen
+        "type-numeric": 6, // Numeriek type
+        "type-options": 'b', // Keuzelijst
+        "type-alphanumeric": '123abc', // Alfanumeriek
+      }, {
+        lookup: 'externalId',
+        create: true
+      }, cb)
+    },
+    get: function(send, cb) {
+      clang.request('customer_getById', {customerId: send.upsert.id}, cb)
+    },
+  }, (err, result) => {
+    console.log(result.send)
+    console.log(result.get)
+    t.notOk(err, 'No error occured')
+    t.ok(lib.isObject(result.send), 'The result is a non-empty object')
     t.end()
   })
 })
