@@ -120,3 +120,91 @@ tape('Send email to an new customer', function (t) {
     t.end()
   })
 })
+
+tape('Send existing customer to group', function (t) {
+  let externalId = Date.now()+''
+  let groupName = `testgroup-${externalId}`
+  let emailAddress = config.get('tester.emailAddress')
+
+  async.autoInject({
+    createCustomer: function(cb) {
+      clang.request('customer_insert', {customer: {externalId}}, cb)
+    },
+    insertGroup: function(cb) {
+      clang.request('group_insert', {group: {
+        name: groupName
+      }}, cb)
+    },
+    send: function(insertGroup, cb) {
+      clang.send({
+        emailAddress,
+        externalId
+      }, {
+        lookup: 'externalId',
+        context: 'group',
+        contextId: insertGroup.id
+      }, cb)
+    }
+  }, (err, result) => {
+    t.notOk(err, 'No error occured')
+    t.ok(lib.isObject(result.insertGroup), 'The `insert` result is a non-empty object')
+    t.ok(lib.isObject(result.send), 'The `send` result is a non-empty object')
+    t.ok(lib.isObject(result.send.get), 'The send object returns a `get` key for the customer that was retrieved')
+    t.ok(result.send.upsertMethodName && result.send.upsertMethodName.match(/^customer_(update|insert)$/), 'The send object returns a `upsertMethodName` key indicating if an existing customer was updated or a new one inserted')
+    t.ok(lib.isObject(result.send.upsert), 'The send object returns a `upsert` key for the customer data after it was updated')
+    t.equal(result.createCustomer.externalId, result.send.upsert.externalId, 'externalId of the created customer and updated one are the same')
+    t.equal(result.send.upsertMethodName, 'customer_update', 'A customer update occured as opposed to a customer insert')
+    t.equal(result.send.send, true, 'Sending the email succeeded albeit the true is not conclusive about if sending actually worked')
+    t.end()
+  })
+})
+
+tape('Send new customer to group', function (t) {
+  let externalId = Date.now()+''
+  let groupName = `testgroup-${externalId}`
+  let emailAddress = config.get('tester.emailAddress')
+
+  async.autoInject({
+    deleteAll: clang.deleteAll.bind(clang, 'customer'),
+    insertGroup: function(cb) {
+      clang.request('group_insert', {group: {
+        name: groupName
+      }}, cb)
+    },
+    sendThatFails: function(insertGroup, cb) {
+      clang.send({
+        emailAddress,
+        externalId
+      }, {
+        lookup: 'externalId',
+        context: 'email',
+        contextId: insertGroup.id
+      }, (err) => {
+        t.ok(err, 'An error should occur, because in the send options create: true is missing')
+        cb()
+      })
+    },
+    send: function(insertGroup, cb) {
+      clang.send({
+        emailAddress,
+        externalId
+      }, {
+        lookup: 'externalId',
+        create: true,
+        context: 'group',
+        contextId: insertGroup.id
+      }, cb)
+    }
+  }, (err, result) => {
+    t.notOk(err, 'No error occured')
+    t.ok(lib.isObject(result.insertGroup), 'The `insert` result is a non-empty object')
+    t.ok(lib.isObject(result.send), 'The `send` result is a non-empty object')
+    t.equal(result.send.get, null, 'No customer was found so')
+    t.ok(result.send.upsertMethodName && result.send.upsertMethodName.match(/^customer_(update|insert)$/), 'The send object returns a `upsertMethodName` key indicating if an existing customer was updated or a new one inserted')
+    t.ok(lib.isObject(result.send.upsert), 'The send object returns a `upsert` key for the customer data after it was updated')
+    t.equal(result.send.upsert.externalId, externalId, 'externalId of the created customer and updated one are the same')
+    t.equal(result.send.upsertMethodName, 'customer_insert', 'A customer insert occured as opposed to a customer update')
+    t.equal(result.send.send, true, 'Sending the email succeeded albeit the true is not conclusive about if sending actually worked')
+    t.end()
+  })
+})
