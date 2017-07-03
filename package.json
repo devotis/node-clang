@@ -10,7 +10,9 @@
   ],
   "scripts": {
     "pretest": "npm run lint",
-    "test": "node test/",
+    "test": "npm run test:signature && npm run test:transformation",
+    "test:signature": "node ./test/signature",
+    "test:transformation": "node ./test/transformation",
     "lint": "eslint --ext=.js ."
   },
   "main": "./index.js",
@@ -22,9 +24,11 @@
   },
   "dependencies": {
     "async": "2.4.1",
+    "prompt": "1.0.0",
     "soap": "0.19.2"
   },
   "devDependencies": {
+    "config": "1.26.1",
     "eslint": "4.1.1",
     "tape": "4.6.3"
   },

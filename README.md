@@ -18,6 +18,7 @@ npm install clang
 - instantiation without new keyword is not possible anymore.
 - config.normalizeOptionFields does not default to true anymore. It doesn't default at all.
 - config.logRequests is renamed to config.logPayload and also logs raw xml output
+- customer_getById and similar methods that would normally output an object have always been wrapped in an array by this module. From 1.0 on when single objects are expected they are no longer wrapped in an array. methods that would normally output an array like customer_getAll, but output just one because of the available data (and/or filter set) continue to be wrapped in an array.
 
 ## Example
 

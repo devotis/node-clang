@@ -1,9 +1,12 @@
 'use strict'
+process.env.NODE_ENV = 'test'
 
 const tape = require('tape')
 const async = require('async')
 const Clang = require('../')
 let clang = new Clang({version: '*'})
+
+const lib = require('./lib');
 
 tape('Class instantiation', (t) => {
   t.equal(clang instanceof Clang, true, 'Clang instantiation should work')
@@ -113,8 +116,7 @@ tape('Request validity', (t) => {
     (cb) => {
       clang.request('customer_getById', {uuid: '123'}, function(err) {
         t.ok(err, 'Request with incorrect uuid should callback with an error')
-        t.ok(err.Fault, 'Which is a SOAP Fault')
-        t.equal(err.Fault.faultcode, '202', 'With faultcode 202')
+        t.equal(lib.faultcode(err), 202, 'With is a SOAP Fault with faultcode 202')
         cb()
       })
     }
@@ -123,7 +125,7 @@ tape('Request validity', (t) => {
   })
 })
 
-tape('Request promise', (t) => {
+tape('Request validity promise', (t) => {
   let isCalled = function() {
     isCalled = true
   }
@@ -142,8 +144,7 @@ tape('Request promise', (t) => {
       .then(isCalled)
       .catch(err => {
         t.ok(err, 'Request with incorrect uuid should callback with an error')
-        t.ok(err.Fault, 'Which is a SOAP Fault')
-        t.equal(err.Fault.faultcode, '202', 'With faultcode 202')
+        t.equal(lib.faultcode(err), 202, 'With is a SOAP Fault with faultcode 202')
         cb()
       })
     }
@@ -151,39 +152,4 @@ tape('Request promise', (t) => {
     t.notEqual(isCalled, true, 'The promise did resolve which was unexpected')
     t.end()
   })
-})
-
-tape('Fields', (t) => {
-  let data = {
-    a: 1,
-    email: 'a@b.nl',
-    gender: 'M',
-    name: 'me'
-  }
-  let options = {
-    fieldMap: {
-      name: 'firstname'
-    }
-  }
-
-  let actual = clang.transformFields(data, options)
-  let expected = {
-    a: 1,
-    emailAddress: 'a@b.nl',
-    gender: 'MAN',
-    firstname: 'me'
-  }
-
-  t.deepEqual(actual, expected, 'Transform well')
-
-  data = {
-    a: 'a@b.nl'
-  }
-
-  actual = clang.transformFields(data)
-
-  t.deepEqual(actual, data, 'Transform well again')
-  t.notEqual(actual, data, 'Into a NEW object')
-
-  t.end()
 })
