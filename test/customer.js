@@ -9,7 +9,7 @@ let clang = new Clang({
   version: '*',
   uuid: config.get('uuid'),
   logPayload: false,
-  debug: false
+  debug: true
 })
 
 const lib = require('./lib');

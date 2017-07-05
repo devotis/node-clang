@@ -237,8 +237,6 @@ tape('Proper sending of customer data values', function (t) {
       clang.request('customer_getById', {customerId: send.upsert.id}, cb)
     },
   }, (err, result) => {
-    console.log(result.send)
-    console.log(result.get)
     t.notOk(err, 'No error occured')
     t.ok(lib.isObject(result.send), 'The result is a non-empty object')
     t.end()
