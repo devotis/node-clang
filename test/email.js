@@ -7,8 +7,10 @@ const async = require('async')
 const Clang = require('../')
 let clang = new Clang({
   version: '*',
-  uuid: config.get('uuid'),
-  logPayload: false
+  uuid: config.uuid,
+  logPayload: false,
+  debug: false,
+  mock: !config.uuid
 })
 
 const lib = require('./lib');

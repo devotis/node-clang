@@ -1,0 +1,6 @@
+require('./customer')
+require('./delete-all')
+require('./email')
+require('./group')
+require('./signature')
+require('./transformation')
