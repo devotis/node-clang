@@ -20,11 +20,21 @@ npm install clang
 - config.logRequests is renamed to config.logPayload and also logs raw xml output
 - customer_getById and similar methods that would normally output an object have always been wrapped in an array by this module. From 1.0 on when single objects are expected they are no longer wrapped in an array. methods that would normally output an array like customer_getAll, but output just one because of the available data (and/or filter set) continue to be wrapped in an array.
 
-## Example
+## 1.0 new features
+- The default platform is `secure`, but you can now configure it to be `login`.
+```javascript
+const clang = new Clang({
+  uuid: '12345678-1234-1234-1234-123456781234',
+  platform: 'login'
+})
+```
 
+## Example
 ```javascript
 const Clang = require('clang')
-const clang = new Clang({uuid: '12345678-1234-1234-1234-123456781234'})
+const clang = new Clang({
+  uuid: '12345678-1234-1234-1234-123456781234'
+})
 
 clang.request('group_getMembers', {
   groupId: 2
