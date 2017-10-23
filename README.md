@@ -21,6 +21,7 @@ npm install clang
 - customer_getById and similar methods that would normally output an object have always been wrapped in an array by this module. From 1.0 on when single objects are expected they are no longer wrapped in an array. methods that would normally output an array like customer_getAll, but output just one because of the available data (and/or filter set) continue to be wrapped in an array.
 
 ## 1.0 new features
+- You can supply `_allPages=true` in the clang.request params. Internally all pages will be fetched, normalized and concatenated into one array containing the results of all pages.
 - The default platform is `secure`, but you can now configure it to be `login`.
 ```javascript
 const clang = new Clang({
@@ -48,6 +49,15 @@ clang.request('customer_getAll', {
 }, (err, result) => {
   console.log(err, result)
 })
+
+// Let the clang request do the paging for you and get all results back
+clang.request('customer_getAll', {
+  _allPages: true
+}, (err, result) => {
+  console.log(err, result)
+})
+
+
 ```
 
 ## WSDL
