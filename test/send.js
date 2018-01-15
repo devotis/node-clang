@@ -243,3 +243,42 @@ tape('Proper sending of customer data values', function (t) {
     t.end()
   })
 })
+
+tape('Sending data to multiple customers', function (t) {
+  if (!config.uuid) return t.ok()
+
+  let externalId = Date.now()+''
+  async.autoInject({
+    send: function(cb) {
+      clang.send({
+        "emailAddress": 'a2@b.nl',
+        "birthday": new Date(1977, 6, 3), // Datum type -> 3 jul 1977
+        externalId,
+        "firstname": "1"
+      }, {
+        lookup: 'externalId',
+        create: true
+      }, cb)
+    },
+    get: function(send, cb) {
+      clang.request('customer_getById', {customerId: send.upsert.id}, cb)
+    },
+    send2: function(get, cb) {
+      clang.send({
+        "emailAddress": 'a2@b.nl',
+        "birthday": new Date(1977, 6, 3), // Datum type -> 3 jul 1977
+        externalId,
+        "firstname": "20"
+      }, {
+        lookup: 'emailAddress',
+        allowSendToMultiple: true,
+        create: false
+      }, cb)
+    }
+  }, (err, result) => {
+    console.log(result)
+    t.notOk(err, 'No error occured')
+    t.ok(lib.isObject(result.send), 'The result is a non-empty object')
+    t.end()
+  })
+})
